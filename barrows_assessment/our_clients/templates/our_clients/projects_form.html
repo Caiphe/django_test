@@ -1,0 +1,27 @@
+{% extends 'our_clients/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="form-container">
+
+    <h2 class="form-heading">
+        {% if 'update' in request.path %}
+        EDit Project
+        {% else %}
+        Add Project
+        {% endif %}
+    </h2>
+    <form class="general-form" id="project-form-submit" method="POST">
+        {% csrf_token %}
+        <div class="form-field">
+            {{ form|crispy }}
+        </div>
+
+        <div class="btn-container">
+            <button type="submit" id="project-submit" class="sbmt-btn">Submit</button>
+        </div>
+
+    </form>
+</div>
+{% endblock%}

@@ -1,0 +1,28 @@
+{% extends 'our_clients/base.html' %}
+{% block content %}
+
+
+<!-- <div class="delete-pop-up">
+    <div></div>
+</div> -->
+
+<div class="form-container" data-aos="zoom-in" data-aos-duration="800">
+    <h2 class="form-heading">Delete Client</h2>
+    <h3 class="are_you_sure">Are You sure, you want to delete the client : <br>
+        <br>
+        <span>{{ object.client_name|title|safe }}</span>
+    </h3>
+    <form class="sign-up-form" method="POST">
+        {% csrf_token %}
+        <div class="btn-container">
+            <button type="submit" id="delete_client_btn" class="sbmt-btn">Yes Delete</button>
+        </div>
+
+        <div class="redirect_account">
+            <a class="cancel_btn" href="{% url 'clients' %}">Cancel</a>
+        </div>
+
+    </form>
+</div>
+
+{% endblock%}

@@ -1,0 +1,23 @@
+{% extends 'our_clients/base.html' %}
+{% block content %}
+
+
+<div class="form-container" data-aos="zoom-in" data-aos-duration="800">
+    <h2 class="form-heading" style="font-size: 30px;">Delete Project</h2>
+    <h3 class="are_you_sure">Are you sure, you want to delete this logged Project : <br>
+        <br>
+        <span>{{ object.project_name|title }}</span>
+    </h3>
+    <form class="sign-up-form" method="POST">
+        {% csrf_token %}
+        <div class="btn-container">
+            <button type="submit" id="delete_client_btn" class="sbmt-btn confirm_delete_client">Yes Delete</button>
+        </div>
+
+        <div class="redirect_account">
+            <a class="cancel_btn" href="{% url 'projects-list' %}">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock%}

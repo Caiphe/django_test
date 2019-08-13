@@ -1,0 +1,66 @@
+{% extends 'our_clients/base.html' %}
+{% block content %}
+<div class="banner-container" style="background-image:url('/static/our_clients/img/header-image1.jpg')">
+    <div class="welcom_text">WELCOME TO OUR CRM</div>
+</div>
+
+<!-- I have added this part as a read me just to explain what the system does-->
+<div class="how_it_word_section">
+    <h2 class="how_it_works_header">HOW IT WORKS</h2>
+    <div class="inner_how_it">
+        <div class="each-block" data-aos="zoom-in" data-aos-duration="800">
+            <h3 class="each-block-header">AUTHENTICATION</h3>
+            <div class="block-details">
+                Use your authentication details, to login if you have an account. Or create an account with the
+                required fields and login to have access to the system.
+            </div>
+            <br>
+            <a href="{% url 'clients' %}" class="home-links">signin</a>
+        </div>
+        <div class="each-block" data-aos="fade-up" data-aos-duration="1000">
+            <h3 class="each-block-header">CLIENTS</h3>
+            <div class="block-details">
+                You can add, update and delete Clients by following filling up the requires fields.
+                When a client is deleted all the project logged against that client are deleted as well
+            </div>
+            <br>
+            <a href="{% url 'clients' %}" class="home-links">Clients</a>
+
+        </div>
+        <div class="each-block" data-aos="zoom-in" data-aos-duration="500">
+            <h3 class="each-block-header">PROJECTS</h3>
+            <div class="block-details">
+                Projects are logged against a client. They can be deleted and updated
+                as well. When project (s) is deleted the client is not deleted
+            </div>
+            <br>
+            <a href="{% url 'projects-list' %}" class="home-links">Projects</a>
+        </div>
+    </div>
+</div>
+
+<!-- I have added this section for the beaty of the system-->
+<div class="our_client_image">
+    <h2 class="how_it_works_header">SOME OF OUR CLIENTS</h2>
+    <div class="clients-logo-container">
+        <div class="logo-block" data-aos="fade-up" data-aos-duration="800"><img
+                src="/static/our_clients/img/client1.png"></div>
+        <div class="logo-block" data-aos="fade-up" data-aos-duration="1000"><img
+                src="/static/our_clients/img/client2.png"></div>
+        <div class="logo-block" data-aos="fade-up" data-aos-duration="1200"><img
+                src="/static/our_clients/img/client3.png"></div>
+        <div class="logo-block" data-aos="fade-up" data-aos-duration="1000"><img
+                src="/static/our_clients/img/client4.png"></div>
+        <div class="logo-block" data-aos="fade-up" data-aos-duration="1400"><img
+                src="/static/our_clients/img/client5.png"></div>
+    </div>
+</div>
+
+
+<div class="footer-container">
+    &copy; 2019 | Copy Right | barrows-assessment.com
+</div>
+<script>
+</script>
+
+{% endblock content %}

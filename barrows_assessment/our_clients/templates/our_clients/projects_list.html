@@ -1,0 +1,36 @@
+{% extends 'our_clients/base.html' %}
+{% block content %}
+
+<div class="client-list-container" style="width:980px;">
+    <div class="table-header-section">
+        <h1 class="clients-list-header">Projects List</h1>
+
+        <div class="adding_new_container">
+            <a href="{% url 'log-project' %}" class="adding_new_a">Log Project</a> &nbsp;&nbsp;
+            <a href="{% url 'new-client' %}" class="adding_new_a">Add New Client</a> &nbsp;&nbsp;
+        </div>
+    </div>
+
+    <table id="clientsTable" class="table table-responsive">
+        <thead>
+            <th>Project Name</th>
+            <th>Project Status</th>
+            <th>Looged Against</th>
+            <th class="action_td" style="width: 240px !important;">Actions</th>
+        </thead>
+        {% for project in Projects %}
+        <tr class="client-tr">
+            <td>{{ project.project_name|title }}</td>
+            <td>{{ project.project_status }}</td>
+            <td>{{ project.client_name|title }}</td>
+            <td class="action_td">
+                <a class="action-btn updated_btn" href="{% url 'project-update' project.pk %}"> Edit </a> &nbsp;&nbsp;
+                <a class="action-btn delete_btn" href="{% url 'project-delete' project.pk %}"> Delete </a> &nbsp;&nbsp;
+                <!-- <a class="action-btn updated_btn" href="{% url 'client-detail' project.pk %}"> Projects </a> -->
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+{% endblock content %}

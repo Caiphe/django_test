@@ -1,0 +1,35 @@
+{% extends 'our_clients/base.html' %}
+{% block content %}
+
+<div class="logged-projects">
+
+    <h2 class="form-heading">{{ object.client_name }} </h2>
+    <div class="logged-container">
+
+        {% for project in project_list %}
+        <div class="each-project-container">
+            <div class="inner-each-project">
+                <span class="project_details_bold"> Project Name :</span>
+                <span class="project_detail">{{ project.project_name }}</span>
+            </div>
+            <div class="inner-each-project">
+                <span class="project_details_bold"> Project Status :</span>
+                <span class="project_detail">{{ project.project_status }}</span>
+            </div>
+            <div class="inner-each-project">
+                <span class="project_details_bold"> Client Name :</span>
+                <span class="project_detail">{{ project.client_name }}</span><br>
+                <span class="project_detail">{{ object.client_name }}</span>
+            </div>
+            <div class="action-button">
+                <a href="{% url 'project-update' project.pk %}" class=" project_action update_project">Update</a>
+                <a href="{% url 'project-delete' project.pk %}" class="project_action delete_project">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+</div>
+
+{% endblock content %}

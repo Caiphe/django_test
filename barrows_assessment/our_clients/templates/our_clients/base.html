@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>Barrows - Assessment</title>
+        {% endif %}
+
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <link rel="stylesheet" href="{% static '/our_clients/css/custom.css' %}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="shortcut icon" type="image/png" href="/static/our_clients/img/flavicon.ico" />
+
+    </head>
+
+    <body>
+        <!-- Header Section-->
+        <header>
+            <div class="header-container">
+                <div class="menu-container">
+
+                    <ul class="left-menu">
+                        <li>
+                            <a href="{% url 'home-page' %}">
+                                <img src="/static/our_clients/img/crm_logo.svg" />
+                            </a>
+                        </li>
+                        <li><a href="{% url 'home-page' %}">Home</a></li>
+                        <li><a href="{% url 'clients' %}">Clients</a></li>
+                        <li><a href="{% url 'projects-list' %}">Projects</a></li>
+                    </ul>
+                    <ul class="menu-list">
+
+                        {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <button class="dropbtn">
+                                <div class="users-det">
+                                    <img class="profile-image" src="{{ user.profile.image.url }}" />
+                                    <span class="user_name"> Hi! {{ user.username|title }}</span>
+                                </div>
+
+                            </button>
+                            <div class=" dropdown-content">
+                                <a href="{% url 'profile' %}">Edit Profile</a>
+                                <a href="{% url 'log-out' %}">Logout</a>
+                            </div>
+                        </div>
+
+                        {% else %}
+                        <li><a href="{% url 'sign-up' %}">Sign Up</a></li>
+                        <li><a class="signin-btn" href="{% url 'sign-in' %}">Sign In</a></li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <!-- Header Section ends -->
+
+        <div class="content-main-grid">
+            <!-- One time flash message -->
+            {% if messages  %}
+            {% for message in messages %}
+            <div class=" custom-alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <!-- Flash Message Ends -->
+
+            <!-- Main Block -->
+            {% block content %}
+            {% endblock content %}
+
+        </div>
+
+    </body>
+
+
+    {% block js %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+
+            function deleteProject(el) {
+                projectId = $(el).data('id')
+                $.ajax({
+                    url: '/client/project/${projectId}',
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        $(el).parents()[1].remove()
+                    }
+                });
+            }
+
+            $('#clientsTable').DataTable({
+                dom: 'B<"clear">lfrtip',
+                buttons: {
+                    name: 'primary',
+                    buttons: ['copy', 'excel', 'pdf']
+                }
+            }
+            );
+        })
+
+        AOS.init(
+            {
+                once: true,
+            }
+        );
+
+        // Profile Form
+        $('#profile_updates').submit(function (evnt) {
+            evnt.preventDefault();
+
+            var serialsedData = $(this).serialize()
+            console.log(window.location.pathname)
+            console.log('hello there')
+
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: {
+                    'content': serialsedData,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (response) {
+                    /// Reset The Form after succful Submit
+                    $('.sign-up-form')[0].reset();
+                    console.log(response);
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            })
+        })
+
+        //// Validating the Contact Number
+        $('#id_contact_number').keyup(function () {
+            var $contact_number = this.value;
+            phonenumber($contact_number);
+        })
+        function phonenumber(inputtxt) {
+            var phoneno = /^\(?([0-9])\)?[-. ]?([0-9]{6})[-. ]?([0-9]{5})$/;
+            if (!phoneno.test(inputtxt)) {
+                $('#id_contact_number').css('border', 'solid 1px red');
+                return false;
+            }
+            else {
+                $('#id_contact_number').css('border', 'solid 1px green');
+                return true;
+            }
+        }
+
+    </script>
+
+
+
+    {% endblock js %}
+
+
+</html>
